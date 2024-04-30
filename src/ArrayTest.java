@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class ArrayTest {
     public static void main(String[] args) {
         int[] arr = {5, 9, 20, 66, 88, 45, 86, 99, 126, 512};
-        MyTools myTools = new MyTools();
+        MyTools myTools = new MyTools("xiaoming", 18);
         myTools.bubble(arr);
         System.out.println("=====排序后的数据");
         for (int i = 0; i < arr.length; i++) {
