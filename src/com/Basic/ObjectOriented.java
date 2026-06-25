@@ -17,7 +17,7 @@ class Cat{
     int age;
     String color;
 
-    void message () {
+    public void message () {
         System.out.println("猫的名字是：" + this.name + "，年龄是：" + this.age + "，颜色是：" + this.color);
     }
 }

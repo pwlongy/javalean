@@ -10,5 +10,5 @@ public class A {
     public void m1() {
         System.out.println("n1="+n1+",n2="+n2+",n3="+n3+",n4="+n4);
     }
-
+    boolean  is300 = n3 == 300 ? true : false;
 }
