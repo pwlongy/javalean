@@ -1,6 +1,7 @@
 package com.Basic;
 
-public class ObjectOriented {
+public class
+ObjectOriented {
     public  static  void  main(String[] args){
 //     面向对象
        Cat cat = new Cat();
