@@ -53,8 +53,35 @@ public class poly {
 //        2.  只能强转父类的引用，不能强转父类的对象
 //        3.  要求父类的引用必须指向的是当前目标类型的对象
 //        4.  可以调用子类类型的所有成员
+//      要求父类的引用必须指向的是当前目标类型的对象，应为 Animal animal1 = new Dog("dog") 定义的时候已经是Dog类型了，所以可以强转为Dog类型
+        Dog dog = (Dog) animal1;
+        dog.watch();  //这个时候可以调用所有子类类型成员
+//        不能再次强转，应为animal1已经不是Animal类型了(Animal animal1 = new Dog("dog");)，现在已经是Dog类型
+//        Cat cat = (Cat) animal1;
+//        cat.eat();
 
 
+
+        System.out.println("-------------属性没有重写之说--------------------");
+
+//        属性没有重写之说，属性的值看编译类型
+        Food food2 = new Fish("fish");
+        System.out.println(food2.number);  // 获取的是food中的number
+        Fish fish = new Fish("fish2");
+        System.out.println(fish.number);// 获取的是fish中的number
+
+        System.out.println("--------------instanceOf--------------------");
+//        instanceOf比较操作符，用于判断对象的运行类型是否为XX类型的子类型
+        Bone bone = new Bone("bone");
+        System.out.println(bone instanceof Bone);
+        System.out.println(bone instanceof Food);
+
+
+
+
+//        java动态绑定机制
+//        1. 当调用对象方法的时候，该方法会和该对象的 内存地址/运行类型 进行绑定
+//        2. 当调用对象属性的时候， 没有动态绑定机制，哪里声明哪里使用
     }
 }
 
@@ -137,6 +164,7 @@ class pig extends Animal {
 
 class Food {
     private String name;
+    int number = 10;
     public Food(String name) {
         this.name = name;
     }
@@ -155,6 +183,7 @@ class Fish extends Food {
     public Fish(String name) {
         super(name);
     }
+    int number = 20;
 
     public void eat() {
         System.out.println("Fish eat");
