@@ -126,7 +126,7 @@ class SmallChangeService {
             for (int i = 0; i < smallChanges.length; i++) {
                 temp[i] = smallChanges[i];
             }
-            temp[smallChanges.length - 1] = smallChange;
+            temp[smallChanges.length] = smallChange;
             this.smallChanges = temp;
             temp = null;
         }
