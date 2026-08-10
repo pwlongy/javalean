@@ -93,7 +93,7 @@ class HouseService {
             for(int i = 0; i < houses.length; i++) {
                 temp[i] = houses[i];
             }
-            temp[houses.length-1] = house;
+            temp[houses.length] = house;
             houses = temp;
         }
     }
