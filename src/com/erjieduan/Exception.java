@@ -143,6 +143,16 @@ public class Exception {
  *
  *
  * */
+
+
+/**
+ * throws 和 throw 的区别
+ *    意义                        位置                  后面跟的东西
+ * 1. throws 异常处理的一种方式      方法生命处             异常类型
+ * 2. throw  手动生成异常对象的关键字       方法体中              异常对象
+ *
+ *
+ * */
 }
 
 class InputNumber {
@@ -184,5 +194,28 @@ class MyException extends RuntimeException {
             throw new MyException("年龄不合法");
         }
         System.out.println("年龄合法");
+    }
+}
+
+/**
+ * 1. 编写EcmDef类，接收两个参数（整数），计算两数相除
+ * 2. 计算两数香醋， 要求 cal（int n1, int n2）
+ * 3. 对数据格式不正确， 缺少参数， 除以 0 进行异常处理
+ *
+ * */
+class EcmDef {
+    public double cal(String[] number) {
+        try {
+            int number1 = Integer.parseInt(number[0]);
+            int number2 = Integer.parseInt(number[1]);
+            return number1 / number2;
+        } catch (ArithmeticException e) {
+            System.out.println("除数不能为0");
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MyException("数组越界");
+        } catch (NumberFormatException e) {
+            throw new MyException("数字格式异常");
+        }
+        return 0;
     }
 }
