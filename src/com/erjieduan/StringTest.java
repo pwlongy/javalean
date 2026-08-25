@@ -333,7 +333,15 @@ class StringBuilderTest {
 class StringHomework {
     public static void main(String[] args) {
         reverse("abcdefg", 2, 5);
-        userInput();
+        Boolean flag = true;
+        do {
+            try {
+                userInput();
+                flag = false;
+            } catch (MyException e) {
+                System.out.println(e.getMessage());
+            }
+        } while (flag);
     }
 //    将指定位置的字符进行反转
     public static void reverse(String str, int start, int end) {
@@ -352,8 +360,7 @@ class StringHomework {
 
 
     public static void userInput() {
-        Boolean flag = true;
-        do {
+
             Scanner scannerUser = new Scanner(System.in);
             System.out.println("请输入用户名：");
             String username = scannerUser.next();
@@ -372,7 +379,6 @@ class StringHomework {
 
                 throw new MyException("邮箱格式不正确");
             }
-        } while (flag);
     }
 }
 
