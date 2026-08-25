@@ -360,25 +360,27 @@ class StringHomework {
 
 
     public static void userInput() {
-
-            Scanner scannerUser = new Scanner(System.in);
-            System.out.println("请输入用户名：");
-            String username = scannerUser.next();
-//          校验输入用户长度为2-4
-            if (username.length() < 2 || username.length() > 4) {
-                throw new MyException("用户名长度不正确");
-            }
-            System.out.println("请输入密码：");
-            String password = scannerUser.next();
-            if(password.length() != 6 || !password.matches("[0-9]+")) {
-                throw new MyException("密码长度不正确或输入的内容不为数字");
-            }
-            System.out.println("请输入邮箱：");
-            String emile = scannerUser.next();
-            if(emile.indexOf("@") == -1 && emile.indexOf(".") == -1 && !(emile.indexOf(".") > emile.indexOf("@"))) {
-
-                throw new MyException("邮箱格式不正确");
-            }
+        Scanner scannerUser = new Scanner(System.in);
+        System.out.println("请输入用户名：");
+        String username = scannerUser.next();
+//         校验输入用户长度为2-4
+        if (username.length() < 2 || username.length() > 4) {
+            throw new MyException("用户名长度不正确");
+        }
+        System.out.println("请输入密码：");
+        String password = scannerUser.next();
+        if(password.length() != 6 || !password.matches("[0-9]+")) {
+            throw new MyException("密码长度不正确或输入的内容不为数字");
+        }
+        System.out.println("请输入邮箱：");
+        String emile = scannerUser.next();
+        if(emile.indexOf("@") == -1 && emile.indexOf(".") == -1 && !(emile.indexOf(".") > emile.indexOf("@"))) {
+            throw new MyException("邮箱格式不正确");
+        }
     }
+
+
 }
+
+
 
