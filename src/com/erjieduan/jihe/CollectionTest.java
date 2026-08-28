@@ -26,6 +26,9 @@ public class CollectionTest {
 
         ListTest.ListTestMethod();
         ListTest.ListIterator();
+
+        HashSetHomeWork.work2();
+        HashSetHomeWork.work3();
     }
 }
 
@@ -119,6 +122,7 @@ class CollectionTest1 {
     }
 }
 
+// ArrayList
 class ListTest {
     public static void ListTestMethod() {
 /**
@@ -276,7 +280,7 @@ class LinkedListTest {
 }
 
 
-// Set 接口的常用方法
+// Set 接口的常用方法 HashSet
 class Settest {
     public static void main(String[] args) {
 /**
@@ -299,10 +303,32 @@ class Settest {
  *  4. Hsahset 不保证元素有序的，取决于hash后在确定索引结果
  *  5. 不能有重复元素/对象
  *
+ * HashSet 底层机制说明
+ *  1. HashSet 底层是 hashMap
+ *      1.1 HashSet 添加内容后初始化大小默认是16， 后续扩容都是2倍扩容并且还会存在一个阈值(threshold)，
+ *          阈值的计算方式是 capacity（当前数据容量大小） * loadFactor（默认是 0.75），
+ *          即 16 * 0.75 = 12 当元素个数超过阈值时，(size大小 >= threshold)会进行扩容
+ *      1.2 如果table 数组使用达到了临界值12， 就会扩容到 2 * 16 = 32 个位置，
+ *          新的临界值就会变成 32 * 0.75, 依此类推
+ *      1.3 在 java8 中，如果一条链表的元素达到了 TREEIFY_THRESHOLD（默认是8），
+ *          并且 table 的大小 >= MIN_TREEIFY_CAPACITY（默认是64），
+ *          就会进行树化（红黑树），否则每在一个链表中添加一次数据就会扩容一次，直到扩容到64，直到链表进行树化
+ *
+ *  2. 添加一个元素时，先得到hash值 会转成 -》 索引值
+ *  3. 找到存储数据表 table， 看到这个索引位置是否已经存放的有位置
+ *  4. 如果没有直接加入
+ *  5. 如果有， 调用equals 比较，如果相同就放弃添加， 如果不同就添加到最后
+ *  6. 在java8中，如果一天链表的元素个数到达TREEIFY_THRESHOLD（默认是8），并且table的大小 >=
+ *  MIN_TREEIFY_CAPACITY(默认64)，就会进行树化（红黑树）
+ *
+ *
+ *
+ *
  * */
         Set set = new HashSet();
         set.add("JAVA");
         set.add("C");
+        set.add("JAVA");
         set.add("C++");
         set.add("Python");
         set.add("JavaScript");
@@ -321,8 +347,55 @@ class Settest {
         }
 
 
+        LinkedHashSetTest linkedHashSet =new LinkedHashSetTest();
+        System.out.println("linkedHashSet = " + linkedHashSet);
+    }
+
+
+
+
+
+
+//    LinkedHashSet 继承 hashSet， 实现set 接口
+// 内部类
+/**
+ * 1. LinkedHashSet 是 hashSet的子类
+ * 2. LinkedHashSet 底层是一个LinkedHashMap（HashMap的子类）， 底层维护的是一个数组 + 双向链表
+ *    第一次添加时，数组扩容到 16 ，存放的节点不是Node节点，而是LinkedHashMap.Entry节点
+ * 3. LinkedHashSet 根据元素的 hashCode 值来决定元素的存储位置， 同时使用链表维护元素的次序， 使
+ *    元素看起来是以插入的顺序保存的
+ * 4. LinkedhashSet 不允许重复添加元素
+ *
+ * */
+    static class LinkedHashSetTest {
+        public static void main(String[] args) {
+            UseLinkedHashSet();
+
+            LinkedHashSet linkedHashSet = new LinkedHashSet();
+            linkedHashSet.add(new Car("宝马", 20.0));
+            linkedHashSet.add(new Car("奥迪", 18.0));
+            linkedHashSet.add(new Car("凯迪拉克", 30.0));
+            linkedHashSet.add(new Car("奔驰", 23.0));
+            linkedHashSet.add(new Car("宝马", 20.0));
+
+            System.out.println("linkedHashSet = " + linkedHashSet);
+
+        }
+        public static void UseLinkedHashSet() {
+            LinkedHashSet linkedHashSet = new LinkedHashSet();
+            linkedHashSet.add("JAVA");
+            linkedHashSet.add("C");
+            linkedHashSet.add("JAVA");
+            linkedHashSet.add("C++");
+            linkedHashSet.add("Python");
+            linkedHashSet.add("JavaScript");
+            linkedHashSet.add("JavaScript");
+            linkedHashSet.remove("JAVA");
+            System.out.println("linkedHashSet = " + linkedHashSet);
+        }
     }
 }
+
 
 
 
@@ -386,6 +459,216 @@ class Dog {
         return "Dog{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
+                '}';
+    }
+}
+
+class HashSetHomeWork {
+    public static void work2() {
+        HashSet hashSet = new HashSet();
+        hashSet.add(new Employee("Tom", 18));
+        hashSet.add(new Employee("Tom", 20));
+        hashSet.add(new Employee("jack", 18));
+        hashSet.add(new Employee("Tom", 18));
+        System.out.println("hashSet = " + hashSet);
+    }
+
+    public static void work3() {
+        HashSet hashSet = new HashSet();
+        MyDate myDate1 = new MyDate("1999", "12", "1");
+        MyDate myDate2 = new MyDate("2010", "11", "1");
+        MyDate myDate3 = new MyDate("2026", "12", "23");
+        MyDate myDate4 = new MyDate("1999", "12", "1");
+        Employee1 employee1 = new Employee1("Tom", 10000.0, myDate1);
+        Employee1 employee2 = new Employee1("Tom", 10000.0, myDate2);
+        Employee1 employee3 = new Employee1("Tom", 10000.0, myDate3);
+        Employee1 employee4 = new Employee1("Tom", 10000.0, myDate1);
+        hashSet.add(employee1);
+        hashSet.add(employee2);
+        hashSet.add(employee3);
+        hashSet.add(employee4);
+        System.out.println("hashSet = " + hashSet);
+    }
+}
+
+class Employee {
+    private String name;
+    private int age;
+
+    public Employee(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        // 当 name 以及 age相同就表示是同一个人
+        if (obj instanceof Employee) {
+            Employee employee = (Employee) obj;
+            System.out.println("123 = " + (this.name.equals(employee.getName()) && this.age == employee.getAge()));
+            return this.name.equals(employee.getName()) && this.age == employee.getAge();
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+}
+
+class Employee1 {
+    private String name;
+    private Double salary;
+    private MyDate birthday;
+
+    public Employee1(String name, Double salary, MyDate birthday) {
+        this.name = name;
+        this.salary = salary;
+        this.birthday = birthday;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public MyDate getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(MyDate birthday) {
+        this.birthday = birthday;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee1 employee1 = (Employee1) o;
+        return Objects.equals(name, employee1.name) && Objects.equals(birthday, employee1.birthday);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, birthday);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee1{" +
+                "name='" + name + '\'' +
+                ", salary=" + salary +
+                ", birthday=" + birthday +
+                '}';
+    }
+}
+
+class MyDate {
+    private String year;
+    private String month;
+    private String day;
+
+    public MyDate(String year, String month, String day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MyDate myDate = (MyDate) o;
+        return Objects.equals(year, myDate.year) && Objects.equals(month, myDate.month) && Objects.equals(day, myDate.day);
+    }
+
+    @Override
+    public String toString() {
+        return "MyDate{" +
+                "year='" + year + '\'' +
+                ", month='" + month + '\'' +
+                ", day='" + day + '\'' +
+                '}';
+    }
+}
+
+class Car {
+    private String brand;
+    private Double price;
+
+    public Car(String brand, Double price) {
+        this.brand = brand;
+        this.price = price;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Car car = (Car) o;
+        return Objects.equals(brand, car.brand) && Objects.equals(price, car.price);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, price);
+    }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "brand='" + brand + '\'' +
+                ", price=" + price +
                 '}';
     }
 }
