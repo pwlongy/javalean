@@ -1,5 +1,8 @@
 package com.erjieduan.fanxin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  */
@@ -31,11 +34,74 @@ public class CustomGeneric {
  * 自定义泛型方法
  *  1. 基本语法
  *      public <T,R,....> 返回值类型 方法名(参数列表) {}
- *      1. 泛型方法
- *
- *
+ *      1. 泛型方法， 可以定义在普通类中, 也可以定义在泛型类中
+ *      2. 当泛型方法被调用时， 类型需要确定
  * */
+
+/**
+ * 泛型的继承与通配符
+ *  1. 泛型不具备继承性
+ *      List<Object> list = new ArrayList<String>(); (错误)
+ *  2. 泛型可以使用通配符
+ *      ? 表示未知类型， 可以使用， 也可以不使用
+ *      ? extends xx 表示上界通配符， xx 及其子类都可以
+ *      ? super xx 表示下界通配符， xx 及其父类都可以
+ * */
+        List<Object> list = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        List<AA> list2 = new ArrayList<>();
+        List<BB> list3 = new ArrayList<>();
+        List<CC> list4 = new ArrayList<>();
+
+        printCollection(list);
+        printCollection(list1);
+        printCollection(list2);
+        printCollection(list3);
+        printCollection(list4);
+
+//        printCollection1(list); （错误）
+//        printCollection1(list1);（错误）
+        printCollection1(list2);
+        printCollection1(list3);
+        printCollection1(list4);
+
+        printCollection2(list);
+//        printCollection2(list1);  （错误）
+        printCollection2(list2);
+        printCollection2(list3);
+        printCollection2(list4);
+
+
     }
+    // List<?> 表示未知类型，也就是所以List 所有类型都可以
+    public static void printCollection(List<?> list) {
+        for (Object obj : list) {
+            System.out.println(obj);
+        }
+    }
+    // List<? extends AA> 表示AA 及其子类都可以
+    public static void printCollection1(List<? extends AA> list) {
+        for (Object obj : list) {
+            System.out.println(obj);
+        }
+    }
+    public static void printCollection2(List<? super CC> list) {
+        for (Object obj : list) {
+            System.out.println(obj);
+        }
+    }
+}
+
+class AA {
+
+}
+
+class BB extends AA {
+
+}
+
+class CC extends BB {
+
 }
 
 // 自定义泛型类
@@ -127,4 +193,39 @@ class useExtends implements IA {
     public void method2(String s, Integer integer) {
 
     }
+}
+
+
+class useGenericMethod {
+    public static void main(String[] args) {
+        genericUse genericUse = new genericUse();
+        genericUse.method2(1, 2, 3); // 当调用方法时，传入参数，编译器就会确定类型
+        genericUse2<Integer, String> genericUse2 = new genericUse2<>();
+        genericUse2.method(1, "2");
+        genericUse2.method2(1);
+    }
+}
+
+//自定义泛型方法
+class genericUse{
+    // 普通方法
+    public void method() {}
+
+    // 泛型方法
+    // 泛型方法， 可以定义在普通类中, 也可以定义在泛型类中
+    public<S, V, R> void method2(S s, V v, R r) {
+        System.out.println(s);
+        System.out.println(v);
+        System.out.println(r);
+    }
+}
+
+class genericUse2<T, U> {
+   public void method(T t, U u) {
+        System.out.println(t);
+        System.out.println(u);
+   }
+   public<S> void method2(S s) {
+        System.out.println(s);
+   }
 }
