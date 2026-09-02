@@ -1,7 +1,6 @@
 package com.erjieduan.jihe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -9,6 +8,10 @@ import java.util.List;
 public class jiheHomeWork {
     public static void main(String[] args) {
         HomeWork1.use();
+
+        HomeWork2.use();
+
+        TreeSethomeWork.use();
     }
 }
 
@@ -65,5 +68,89 @@ class HomeWork1{
 
 
 class HomeWork2{
+    public static void use() {
+        HashMap map = new HashMap();
+        map.put("jack", 650);
+        map.put("tom", 1200);
+        map.put("smith", 2900);
+        System.out.println(map);
+//      修改 jack 工资为 2600
+        map.put("jack", 2600);
+        System.out.println(map);
+//      所有员工工资 加 100
+        Set keySet = map.keySet();
+        for (Object key : keySet) {
+            System.out.println(key + " = " + map.get(key));
+            map.put(key, (Integer) map.get(key) + 100);
+        }
+        System.out.println(map);
+//      遍历所有员工
+        for (Object key : keySet) {
+            System.out.println(key + " = " + map.get(key));
+        }
+//      遍历所有员工工资
+        Collection values = map.values();
+        for (Object value : values) {
+            System.out.println(value);
+        }
+    }
+}
 
+
+class TreeSethomeWork {
+    public static void use() {
+        TreeSet treeSet = new TreeSet();
+        treeSet.add(new Person01("jack", 12));
+        treeSet.add(new Person01("tom", 12));
+        treeSet.add(new Person01("tom", 13));
+        treeSet.add(new Person01("tom", 12));
+        System.out.println(treeSet);
+    }
+}
+
+class Person01 implements Comparable {
+    private String name;
+    private int age;
+
+    public Person01(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person01{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    //  当年龄相同姓名相同时，就表示他是同一个人
+    @Override
+    public int compareTo(Object o) {
+        Person01 person01 = (Person01) o;
+        // 第一层：先比较姓名，姓名不同就直接返回结果（不再比年龄）
+        int compareName = this.name.compareTo(person01.getName());
+        if (compareName != 0) {
+            return compareName;
+        }
+        // 第二层：姓名相同，再比较年龄；年龄相同返回 0，表示是同一个人
+        return Integer.compare(this.age, person01.getAge());
+    }
 }
